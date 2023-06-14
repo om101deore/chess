@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cstdio>
 #include <iostream>
+#include <iterator>
 #include <ostream>
 #include <unistd.h>
 #include <utility>
@@ -16,6 +17,7 @@ CBoard::CBoard(){
     Surf_piece = NULL;
 
     firstClickDone = false;
+    whiteTurn  = true;
     startX = startY = endX = endY = 0;
 
     for (size_t i = 0; i < 8; i++) {
@@ -109,12 +111,22 @@ void CBoard::SwapPieces(int mX, int mY){
         startJ = (startY - 25) / BOX_WIDTH;
 
 
-        firstClickDone = true;
+        if (whiteTurn && pieceBoard[startJ][startI].color != 1) {
+            return;
+        }
+
+        if (!whiteTurn && pieceBoard[startJ][startI].color != 2) {
+            return;
+        }
+        firstClickDone = true; 
     }
     else if (firstClickDone) {
         endX = mX;
         endY = mY;
 
+        if(startX == endX || startY == endY){
+            return;
+        }
         firstClickDone = false;
     }
 
@@ -148,7 +160,9 @@ void CBoard::SwapPieces(int mX, int mY){
                 
             }
 
+            whiteTurn = !whiteTurn;
         }
+
 
         move.ClearBoard();
     }
@@ -156,5 +170,75 @@ void CBoard::SwapPieces(int mX, int mY){
         std::cout<< "Before CheckMoves" << std::endl;
         move.CheckMoves(pieceBoard[startJ][startI], pieceBoard);
     }
+
+}
+
+
+void CBoard::SwapPieces1(int mX, int mY){
+
+    if (!firstClickDone) {
+
+        startI = (mX - 25) / BOX_WIDTH;
+        startJ = (mY - 25) / BOX_WIDTH;
+
+        std::cout<< pieceBoard[startJ][startI].PieceType <<std::endl;
+
+
+        if (whiteTurn && pieceBoard[startJ][startI].color != 1) {
+            return;
+        }
+
+        if (!whiteTurn && pieceBoard[startJ][startI].color != 2) {
+            return;
+        }
+        firstClickDone = true; 
+        move.CheckMoves(pieceBoard[startJ][startI], pieceBoard);
+
+        return;
+    }
+    
+
+    endI = (mX - 25) / BOX_WIDTH;
+    endJ = (mY - 25) / BOX_WIDTH;
+
+    firstClickDone = false;
+
+    if(startI == endI && startJ == endJ){
+        move.ClearBoard();
+        return;
+    }
+
+
+    if(move.validMoveArr[endJ][endI] == true){
+
+        Piece startTemp;
+        // swapping
+        startTemp = pieceBoard[startJ][startI];
+        pieceBoard[startJ][startI] = pieceBoard[endJ][endI];
+        pieceBoard[endJ][endI] = startTemp;
+
+
+        // changing pos values
+        pieceBoard[startJ][startI].posX = startI;
+        pieceBoard[startJ][startI].posY = startJ;
+
+        pieceBoard[endJ][endI].posX = endI;
+        pieceBoard[endJ][endI].posY = endJ;
+
+
+        if(pieceBoard[startJ][startI].PieceType != PIECE_NONE){
+            
+            pieceBoard[startJ][startI].PieceType = PIECE_NONE;
+            pieceBoard[startJ][startI].color = 0;
+            
+        }
+
+        whiteTurn = !whiteTurn;
+    }
+
+    
+    move.ClearBoard();
+    
+
 
 }

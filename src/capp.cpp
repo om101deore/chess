@@ -124,8 +124,7 @@ void Capp::OnExit(){
 }
 
 void Capp::OnLButtonDown(int mX, int mY){
-   std::cout<<"Mouse coords: "<< mX << ", " << mY << std::endl;
-   board.SwapPieces( mX, mY);
+    board.SwapPieces1( mX, mY);
 
 }
 

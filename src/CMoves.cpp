@@ -47,9 +47,7 @@ void CMove::CheckMoves(Piece selPiece, Piece pieceArr[][8]){
     int selI, selJ;
     int i,j;
     
-    std::cout<< "in check moves" << std::endl;
     if(selPiece.PieceType == PIECE_NONE) {
-        std::cout<< "null piece" << std::endl;
         return;
     }
 
@@ -58,17 +56,18 @@ void CMove::CheckMoves(Piece selPiece, Piece pieceArr[][8]){
 
 
     switch (selPiece.PieceType) {
+        // PAWN---------------------------------------------
         case PIECE_PAWN:
-            std::cout<< "checking for pawn" << std::endl;
             // white
             if(selPiece.color == 1){
-                std::cout<< "after checking piece color" << std::endl;
                 i = selI -1;
                 j = selJ ;
 
                 if (pieceArr[i][j].PieceType == 0) {
-                    std::cout<< "if piece none" << std::endl;
                     validMoveArr[i][j] = true;
+
+                    if(selI == 6)
+                        validMoveArr[i - 1][j] = true;
                 }
                 
                 i = selI - 1;
@@ -85,10 +84,129 @@ void CMove::CheckMoves(Piece selPiece, Piece pieceArr[][8]){
                     validMoveArr[i][j] = true;
                 }
 
+            } 
+
+            // black
+            else if(selPiece.color == 2){
+                i = selI +1;
+                j = selJ ;
+
+                if (pieceArr[i][j].PieceType == 0) {
+                    validMoveArr[i][j] = true;
+
+                    if(selI == 1)
+                        validMoveArr[i + 1][j] = true;
+                }
+                
+                i = selI + 1;
+                j = selJ + 1;
+                if(pieceArr[i][j].PieceType != PIECE_NONE
+                    && pieceArr[i][j].color == 1){
+                    validMoveArr[i][j] = true;
+                }
+
+                i = selI + 1;
+                j = selJ - 1;
+                if(pieceArr[i][j].PieceType != PIECE_NONE
+                    && pieceArr[i][j].color == 1){
+                    validMoveArr[i][j] = true;
+                }
+
 
                
-            } 
+            }
+
+            break;
+
     
+        case PIECE_KING:
+            if(selPiece.color == 1){
+
+                for (int n = -1;  n < 2; n++) {
+                    for (int m = -1; m < 2; m++) {
+                        
+
+                        selI = selPiece.posY;
+                        selJ = selPiece.posX;
+
+
+                        i = selI + n;
+                        j = selJ + m;
+
+                        if(i < 0 || j < 0) continue;
+                        if(i > 7 || j > 7) continue;
+
+                        if(pieceArr[i][j].color == 1) continue;
+
+                        validMoveArr[i][j] = true;
+                    }
+
+                }
+            }
+            
+            if(selPiece.color == 2){
+
+                for (int n = -1;  n < 2; n++) {
+                    for (int m = -1; m < 2; m++) {
+                        
+
+                        selI = selPiece.posY;
+                        selJ = selPiece.posX;
+
+
+                        i = selI + n;
+                        j = selJ + m;
+
+                        if(i < 0 || j < 0) continue;
+                        if(i > 7 || j > 7) continue;
+
+                        if(pieceArr[i][j].color == 2) continue;
+
+                        validMoveArr[i][j] = true;
+                    }
+
+                }
+            }
+            
+            break;
+
+        case PIECE_QUEEN:
+            if(selPiece.color == 1){
+
+                for (int n = -1;  n < 2; n++) {
+                    for (int m = -1; m < 2; m++) {
+                        
+                        while (true) {
+
+                        
+                            selI = selPiece.posY;
+                            selJ = selPiece.posX;
+
+
+                            i = selI + n;
+                            j = selJ + m;
+
+                            if(i < 0 || j < 0) break;
+                            if(i > 7 || j > 7) break;
+
+                            if(pieceArr[i][j].color == 1) break;
+
+                            if(pieceArr[i][j].color == 2){
+                                validMoveArr[i][j] = true;
+                                break;
+                            }
+
+                            std::cout << "This" << std::endl;
+
+                            validMoveArr[i][j] = true;
+
+                        }
+                    }
+
+
+                }
+            }
+ 
     }
 }
 
