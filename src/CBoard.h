@@ -12,7 +12,6 @@ class CBoard{
     bool OnLoad(char* File);
     void OnRender(SDL_Surface* Surf_display);
     void OnCleanup();
-    void SwapPieces(int mX, int mY);
     void SwapPieces1(int mX, int mY);
     
     private:

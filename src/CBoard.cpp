@@ -34,7 +34,7 @@ bool CBoard::OnLoad(char *File){
         return false; 
     }
 
-    if ((Surf_piece = CSurface::OnLoad((char*)"../assets/pieces1.bmp")) == NULL) {
+    if ((Surf_piece = CSurface::OnLoad((char*)"../assets/chess.bmp")) == NULL) {
         return false; 
     }
     CSurface::Transparent(Surf_piece, 255, 0, 255);
@@ -102,76 +102,7 @@ void CBoard::OnCleanup(){
     SDL_FreeSurface(Surf_piece);
 }
 
-void CBoard::SwapPieces(int mX, int mY){
-    if (!firstClickDone) {
-        startX = mX;
-        startY = mY;
 
-        startI = (startX - 25) / BOX_WIDTH;
-        startJ = (startY - 25) / BOX_WIDTH;
-
-
-        if (whiteTurn && pieceBoard[startJ][startI].color != 1) {
-            return;
-        }
-
-        if (!whiteTurn && pieceBoard[startJ][startI].color != 2) {
-            return;
-        }
-        firstClickDone = true; 
-    }
-    else if (firstClickDone) {
-        endX = mX;
-        endY = mY;
-
-        if(startX == endX || startY == endY){
-            return;
-        }
-        firstClickDone = false;
-    }
-
-    if (firstClickDone == false) {
-        // do swap
-        endI = ( endX - 25) / BOX_WIDTH;
-        endJ = ( endY - 25) / BOX_WIDTH;
-
-
-        if(move.validMoveArr[endJ][endI] == true){
-            std::cout << "Beofre swap" << std::endl;
-            Piece startTemp;
-
-            startTemp = pieceBoard[startJ][startI];
-            pieceBoard[startJ][startI] = pieceBoard[endJ][endI];
-            pieceBoard[endJ][endI] = startTemp;
-
-            std::cout << "After swap" << std::endl;
-
-            pieceBoard[startJ][startI].posX = startI;
-            pieceBoard[startJ][startI].posY = startJ;
-
-            pieceBoard[endJ][endI].posX = endI;
-            pieceBoard[endJ][endI].posY = endJ;
-
-
-            if(pieceBoard[startJ][startI].PieceType != PIECE_NONE){
-                
-                pieceBoard[startJ][startI].PieceType = PIECE_NONE;
-                pieceBoard[startJ][startI].color = 0;
-                
-            }
-
-            whiteTurn = !whiteTurn;
-        }
-
-
-        move.ClearBoard();
-    }
-    else {
-        std::cout<< "Before CheckMoves" << std::endl;
-        move.CheckMoves(pieceBoard[startJ][startI], pieceBoard);
-    }
-
-}
 
 
 void CBoard::SwapPieces1(int mX, int mY){
@@ -181,7 +112,6 @@ void CBoard::SwapPieces1(int mX, int mY){
         startI = (mX - 25) / BOX_WIDTH;
         startJ = (mY - 25) / BOX_WIDTH;
 
-        std::cout<< pieceBoard[startJ][startI].PieceType <<std::endl;
 
 
         if (whiteTurn && pieceBoard[startJ][startI].color != 1) {

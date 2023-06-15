@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <unistd.h>
+#include <cmath>
 
 CMove::CMove(){
     SDL_Surface* Surf_loc = NULL;
@@ -139,6 +140,7 @@ void CMove::CheckMoves(Piece selPiece, Piece pieceArr[][8]){
                         if(pieceArr[i][j].color == 1) continue;
 
                         validMoveArr[i][j] = true;
+
                     }
 
                 }
@@ -175,16 +177,15 @@ void CMove::CheckMoves(Piece selPiece, Piece pieceArr[][8]){
 
                 for (int n = -1;  n < 2; n++) {
                     for (int m = -1; m < 2; m++) {
-                        
+
+                        i = selI;
+                        j = selJ;
+                       
                         while (true) {
 
-                        
-                            selI = selPiece.posY;
-                            selJ = selPiece.posX;
+                            i = i + n;
+                            j = j + m;
 
-
-                            i = selI + n;
-                            j = selJ + m;
 
                             if(i < 0 || j < 0) break;
                             if(i > 7 || j > 7) break;
@@ -196,9 +197,9 @@ void CMove::CheckMoves(Piece selPiece, Piece pieceArr[][8]){
                                 break;
                             }
 
-                            std::cout << "This" << std::endl;
-
                             validMoveArr[i][j] = true;
+
+
 
                         }
                     }
@@ -206,7 +207,238 @@ void CMove::CheckMoves(Piece selPiece, Piece pieceArr[][8]){
 
                 }
             }
- 
+            if(selPiece.color == 2){
+
+                for (int n = -1;  n < 2; n++) {
+                    for (int m = -1; m < 2; m++) {
+
+                        i = selI;
+                        j = selJ;
+                       
+                        while (true) {
+
+                            i = i + n;
+                            j = j + m;
+
+
+                            if(i < 0 || j < 0) break;
+                            if(i > 7 || j > 7) break;
+
+                            if(pieceArr[i][j].color == 2) break;
+
+                            if(pieceArr[i][j].color == 1){
+                                validMoveArr[i][j] = true;
+                                break;
+                            }
+                            
+                            validMoveArr[i][j] = true;
+
+
+
+                        }
+                    }
+
+
+                }
+            }
+
+            break;
+
+        case PIECE_ROOK:
+            if(selPiece.color == 1){
+
+                for (int n = -1;  n < 2; n++) {
+                    for (int m = -1; m < 2; m++) {
+
+                        if(abs(m) == abs(n)) continue;
+
+                        i = selI;
+                        j = selJ;
+                       
+                        while (true) {
+
+                            i = i + n;
+                            j = j + m;
+
+
+                            if(i < 0 || j < 0) break;
+                            if(i > 7 || j > 7) break;
+
+                            if(pieceArr[i][j].color == 1) break;
+
+                            if(pieceArr[i][j].color == 2){
+                                validMoveArr[i][j] = true;
+                                break;
+                            }
+
+                            validMoveArr[i][j] = true;
+                        }
+                    }
+
+
+                }
+            }
+
+            if(selPiece.color == 2){
+
+                for (int n = -1;  n < 2; n++) {
+                    for (int m = -1; m < 2; m++) {
+
+                        if(abs(m) == abs(n)) continue;
+
+                        i = selI;
+                        j = selJ;
+                       
+                        while (true) {
+
+                            i = i + n;
+                            j = j + m;
+
+
+                            if(i < 0 || j < 0) break;
+                            if(i > 7 || j > 7) break;
+
+                            if(pieceArr[i][j].color == 2) break;
+
+                            if(pieceArr[i][j].color == 1){
+                                validMoveArr[i][j] = true;
+                                break;
+                            }
+
+                            validMoveArr[i][j] = true;
+                        }
+                    }
+
+
+                }
+            }
+            break;
+
+        case PIECE_BISHOP:
+            if(selPiece.color == 1){
+
+                for (int n = -1;  n < 2; n++) {
+                    for (int m = -1; m < 2; m++) {
+                        
+                        if((abs(m)+abs(n)) == 1) continue;
+
+                        i = selI;
+                        j = selJ;
+                       
+                        while (true) {
+
+                            i = i + n;
+                            j = j + m;
+
+
+                            if(i < 0 || j < 0) break;
+                            if(i > 7 || j > 7) break;
+
+                            if(pieceArr[i][j].color == 1) break;
+
+                            if(pieceArr[i][j].color == 2){
+                                validMoveArr[i][j] = true;
+                                break;
+                            }
+
+                            validMoveArr[i][j] = true;
+                        }
+                    }
+                }
+            }
+            if(selPiece.color == 2){
+
+                for (int n = -1;  n < 2; n++) {
+                    for (int m = -1; m < 2; m++) {
+                        
+                        if((abs(m)+abs(n)) == 1) continue;
+
+                        i = selI;
+                        j = selJ;
+                       
+                        while (true) {
+
+                            i = i + n;
+                            j = j + m;
+
+
+                            if(i < 0 || j < 0) break;
+                            if(i > 7 || j > 7) break;
+
+                            if(pieceArr[i][j].color == 2) break;
+
+                            if(pieceArr[i][j].color == 1){
+                                validMoveArr[i][j] = true;
+                                break;
+                            }
+
+                            validMoveArr[i][j] = true;
+                        }
+                    }
+                }
+            }
+
+            break;
+
+        case PIECE_KNIGHT:
+            if(selPiece.color == 1){
+
+                for (int n = -2;  n < 3; n++) {
+                    for (int m = -2; m < 3; m++) {
+                        
+                        if((abs(m)+abs(n)) != 3) continue;
+
+                        i = selI;
+                        j = selJ;
+                       
+
+                        i = i + n;
+                        j = j + m;
+
+
+                       if(i < 0 || j < 0) break;
+                       if(i > 7 || j > 7) break;
+
+                       if(pieceArr[i][j].color == 1) break;
+
+                       if(pieceArr[i][j].color == 2){
+                           validMoveArr[i][j] = true;
+                           break;
+                       }
+
+                            validMoveArr[i][j] = true;
+                    }
+                }
+            }
+            if(selPiece.color == 2){
+
+                for (int n = -2;  n < 3; n++) {
+                    for (int m = -2; m < 3; m++) {
+                        
+                        if((abs(m)+abs(n)) != 3) continue;
+
+                        i = selI;
+                        j = selJ;
+                       
+
+                        i = i + n;
+                        j = j + m;
+
+
+                       if(i < 0 || j < 0) break;
+                       if(i > 7 || j > 7) break;
+
+                       if(pieceArr[i][j].color == 2) break;
+
+                       if(pieceArr[i][j].color == 1){
+                           validMoveArr[i][j] = true;
+                           break;
+                       }
+
+                            validMoveArr[i][j] = true;
+                    }
+                }
+            }
     }
 }
 

@@ -1,6 +1,5 @@
 #include <iostream>
 #include "CBoard.h"
-#include "CEntity.h"
 #include "capp.h"
 #include "CEvent.h"
 #include "CSurface.h"
@@ -67,12 +66,7 @@ void Capp::onEvent(SDL_Event *Event){
 
 // Does calculations and all
 void Capp::onLoop(){
-    for (size_t i = 0; i < CEntity::EntityList.size(); i++) {
-        if(!CEntity::EntityList[i]) continue;
 
-        CEntity::EntityList[i]->OnLoop();
-        
-    }
 }
 
 //Does all displying jobs
@@ -83,12 +77,6 @@ void Capp::onRender(){
     // clears whole screen
 //    SDL_FillRect(Surf_display, NULL, 0x000000);
 
-    for (size_t i = 0; i < CEntity::EntityList.size(); i++) {
-        if(!CEntity::EntityList[i]) continue;
-
-        CEntity::EntityList[i]->OnRender(Surf_display);
-        
-    }
 
     board.OnRender(Surf_display);
 
@@ -99,20 +87,7 @@ void Capp::onRender(){
 
 void Capp::onCleanup(){
 
-
-
-    for (size_t i = 0; i < CEntity::EntityList.size(); i++) {
-        if(!CEntity::EntityList[i]) continue;
-
-        CEntity::EntityList[i]->OnCleanup();
-        
-    }
-
     board.OnCleanup();
-
-    CEntity::EntityList.clear();
-
-    
 
     SDL_Quit();
 

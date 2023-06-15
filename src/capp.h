@@ -1,9 +1,7 @@
 #pragma once
 
-#include "CAnimation.h"
 #include "CBoard.h"
 #include "CEvent.h"
-#include "CEntity.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_video.h>
 
